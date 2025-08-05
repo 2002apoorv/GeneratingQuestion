@@ -10,12 +10,14 @@ app.use(express.json());
 require('dotenv').config();
 const axios = require('axios');
 
+const GEMINI_API_KEY = "YOUR_ACTUAL_API_KEY_HERE"; // ⚠️ Don't commit this to GitHub!
+
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
 
 app.post('/chat', async (req, res) => {
     try {
         const response = await axios.post(
-            `${GEMINI_API_URL}?key=${process.env.GEMINI_API_KEY}`,
+            `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
             {
                 contents: [{ role: "user", parts: [{ text: req.body.message }] }]
             }
@@ -25,6 +27,7 @@ app.post('/chat', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 app.get("/",async (req,res)=>{
     const ages=await Age.find({});
@@ -95,6 +98,7 @@ app.post("/questioncreate",async (req,res)=>{
 
     res.status(200).json({message:"question created successfully"})
 })
+
 
 
 app.listen(3000)
